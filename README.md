@@ -4,9 +4,10 @@
 
 ## 실행 방법
 
-### direnv를 사용하여 환경변수 설정
+### 프로젝트 가장 상위 폴더에 .env를 만들어 환경변수 주입
 ```
-maybe use export?
+API_KEY=<your-api-key>
+BASE_URL=<your-base-url>
 ```
 
 ### Docker를 사용하여 실행하기
