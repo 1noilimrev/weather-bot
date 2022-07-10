@@ -11,7 +11,7 @@ class MessageGenerator:
         self.lon = lon
         self.current_result = get_current(lat, lon)
         self.twenty_four_history_results = {i: get_historical_hourly(lat, lon, i)
-                                            for i in range(6, (24 + 1), 6)}
+                                            for i in range(-6, (-24 - 1), -6)}
         self.forty_eight_forecast_results = [get_forecast_hourly(lat, lon, i)
                                              for i in range(6, (48 + 1), 6)]
 
@@ -41,7 +41,7 @@ class MessageGenerator:
 
     def _generate_temperature_diff_msg(self):
         current_temp = self.current_result.get('temp')
-        twenty_four_before_temp = self.twenty_four_history_results[24].get('temp')
+        twenty_four_before_temp = self.twenty_four_history_results[-24].get('temp')
         temp_change = current_temp - twenty_four_before_temp
         abs_temp_change = abs(temp_change)
         if temp_change < 0:
@@ -59,7 +59,7 @@ class MessageGenerator:
     def _generate_temperature_max_min_msg(self):
         current_result_temp = self.current_result.get('temp')
         historic_result_temps = [i.get('temp') for i in self.twenty_four_history_results.values()]
-        total_results = [current_result_temp] + [historic_result_temps]
+        total_results = [current_result_temp] + historic_result_temps
         max_temp = max(total_results)
         min_temp = min(total_results)
         return f'최고기온은 {max_temp}도, 최저기온은 {min_temp}도 입니다.'
